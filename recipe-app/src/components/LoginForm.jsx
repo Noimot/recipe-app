@@ -48,6 +48,11 @@ const LoginForm = () => {
         style={{ backgroundImage: "url(/img/bg-img/breadcumb3.jpg)" }}
       >
         <div className="container mx-auto login-area-border">
+        <div className="text-left">
+        <a className="nav-brand" href="/">
+                  <img src="/img/core-img/logo.png" alt="" />
+                </a>
+        </div>
           <div className="text-center login-header">
             <h2 className="login-header">Login</h2>
           </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Ratings from "../components/Ratings";
 import { useQuery, useQueryClient } from "react-query";
-import { getAllRecipes } from "../../service/recipe";
+import { getAllRecipes, searchRecipes } from "../../service/recipe";
 import MediumRecipeCard from "../components/recipe-cards/MediumRecipeCard";
 import SmallRecipeCard from "../components/recipe-cards/SmallRecipeCard";
 import SmallestCard from "../components/recipe-cards/SmallestCard";
@@ -13,8 +13,18 @@ const Home = () => {
 
   // Queries
   const queryClient = useQueryClient();
-  const query = useQuery("recipes", getAllRecipes);
-  const allRecipes = query?.data?.data?.allRecipes;
+  const [title, setTitle] = useState("");
+  const [queryTitle, setQueryTitle] = useState("");
+  //   const query = useQuery("recipes", getAllRecipes);
+  //   const allRecipes = query?.data?.data?.allRecipes;
+
+  const query = useQuery(["recipes", queryTitle], () =>
+    searchRecipes(queryTitle)
+  );
+  const allRecipes = query?.data?.data?.recipes;
+
+  // const query = useQuery("recipes", getAllRecipes);
+  // const allRecipes = query?.data?.data?.allRecipes;
   const firstRecipe = allRecipes?.[0];
   const secondRecipe = allRecipes?.[1];
   const firstSixRecipes = allRecipes?.slice(0, 6);
@@ -32,8 +42,16 @@ const Home = () => {
     setToggleSearch(!toggleSearch);
   };
 
+  const handleSearch = () => {
+    setQueryTitle(title);
+  };
+  const handleReset = () => {
+    setQueryTitle("");
+    setTitle("");
+  };
+
   return (
-    <Layout toggleSearch={toggleSearch} handleToggleSearch={handleToggleSearch}>
+    <Layout toggleSearch={toggleSearch} handleToggleSearch={handleToggleSearch} title={title} setQueryTitle={setQueryTitle} setTitle={setTitle}>
       {/* ##### Top Catagory Area Start ##### */}
       <section className="top-catagory-area section-padding-80-0">
         <div className="container">
@@ -108,7 +126,12 @@ const Home = () => {
             {/* Small Receipe Area */}
             {otherRecipes &&
               otherRecipes.map((data) => (
-                <SmallestCard createdAt="January 04, 2018" name={data.name} id={data?.id} key={data?.id}/>
+                <SmallestCard
+                  createdAt="January 04, 2018"
+                  name={data.name}
+                  id={data?.id}
+                  key={data?.id}
+                />
               ))}
           </div>
         </div>

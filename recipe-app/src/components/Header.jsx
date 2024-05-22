@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Header = ({toggleSearch, handleToggleSearch, recipePage}) => {
+const Header = ({ toggleSearch, handleToggleSearch, recipePage, title, setTitle, setQueryTitle }) => {
+
+  const navigate = useNavigate();
+  const goToAddRecipePage = () => {
+    navigate("/recipe/add-recipe");
+  };
+  const handleSearch = () => {
+    // handleToggleSearch();
+    setQueryTitle(title);
+  }
+  const handleReset = () => {
+    handleToggleSearch();
+    setQueryTitle('');
+  }
   return (
     <section>
       {" "}
       {toggleSearch && !recipePage && (
         <div className="search-wrapper">
           {/* Close Btn */}
-          <div className="close-btn" onClick={handleToggleSearch}>
+          <div className="close-btn" onClick={handleReset}>
             <i className="fa fa-times" />
           </div>
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <form action="#" method="post">
+                <form>
                   <input
-                    type="search"
                     name="search"
-                    placeholder="Type any keywords..."
+                    placeholder="Search Recipes"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
-                  <button type="submit" onClick={handleToggleSearch}>
+                  <button type="button" onClick={handleSearch}>
                     <i className="fa fa-search search-btn" />
                   </button>
                 </form>
@@ -72,11 +88,24 @@ const Header = ({toggleSearch, handleToggleSearch, recipePage}) => {
                       <li>
                         <a href="/">Contact</a>
                       </li>
+                      <li>
+                        {/* <div className="col-3 text-right"> */}
+                          <button
+                            className="btn delicious-btn"
+                            type="button"
+                            onClick={goToAddRecipePage}
+                          >
+                            Add Recipe
+                          </button>
+                        {/* </div> */}
+                      </li>
                     </ul>
                     {/* Newsletter Form */}
-                   {!recipePage && <div className="" onClick={handleToggleSearch}>
-                      <i className="fa fa-search" />
-                    </div>}
+                    {!recipePage && (
+                      <div className="" onClick={handleToggleSearch}>
+                        <i className="fa fa-search" />
+                      </div>
+                    )}
                   </div>
                   {/* Nav End */}
                 </div>
