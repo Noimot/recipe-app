@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getComments, getRecipeById } from "../../../service/recipe";
 import Ratings from "../../components/Ratings";
@@ -15,7 +15,6 @@ const RecipeDetails = () => {
   const query = useQuery(["recipes", id], () => getRecipeById(id));
   const getAllComments = useQuery(["comments"], getComments);
   const allCommentsData = getAllComments?.data?.data?.allComments;
-  console.log(allCommentsData, "comments");
 
   const recipe = query?.data?.data?.recipe;
   let ingredients = recipe?.ingredients?.split("|");
@@ -32,6 +31,10 @@ const RecipeDetails = () => {
   const recipeSchema = object({
     comment: string().required().label("Leave a comment"),
   });
+
+  const token = localStorage.getItem("token");
+  const userDetails = JSON.parse(localStorage.getItem("user"));
+
   const form = useFormik({
     initialValues: {
       comment: "",
@@ -44,7 +47,7 @@ const RecipeDetails = () => {
       try {
         mutation.mutate({
           comment: values.comment,
-          userId: id,
+          userId: userDetails?._id,
           recipeId: recipe?.id,
         });
         toast.success("Comment added successfully!");
@@ -52,13 +55,9 @@ const RecipeDetails = () => {
         // navigate("/recipe");
       } catch (error) {
         toast.error("An error occur!");
-
-        console.log(error);
       }
     },
   });
-
-  console.log(param, "param", query, recipe, ingredients);
   return (
     <Layout recipePage>
       <div
@@ -126,46 +125,60 @@ const RecipeDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-12">
-                <button className="section-heading text-left">
-                  <h3>Leave a comment</h3>
-                </button>
-              </div>
-            </div>
-            <FormikProvider value={form}>
-              <div className="row">
-                <div className="col-12 mb-50">
-                  <div className="contact-form-area">
-                    <form onSubmit={form.handleSubmit}>
-                      <div className="row">
-                        <div className="col-12">
-                          <textarea
-                            name="comment"
-                            className="form-control"
-                            id="comment"
-                            cols={30}
-                            rows={10}
-                            placeholder="Leave a Comment"
-                            onChange={form.handleChange}
-                            onBlur={form.handleBlur}
-                            value={form.values["comment"]}
-                          />
-                        </div>
-                        <div className="col-12">
-                          <button
-                            className="btn delicious-btn mt-30"
-                            type="submit"
-                          >
-                            Post Comments
-                          </button>
-                        </div>
-                      </div>
-                    </form>
+            {token !== "undefined" && token && (
+              <>
+                <div className="row">
+                  <div className="col-12">
+                    <button className="section-heading text-left">
+                      <h3>Leave a comment</h3>
+                    </button>
                   </div>
                 </div>
-              </div>
-            </FormikProvider>
+                <FormikProvider value={form}>
+                  <div className="row">
+                    <div className="col-12 mb-50">
+                      <div className="contact-form-area">
+                        <form onSubmit={form.handleSubmit}>
+                          <div className="row">
+                            <div className="col-12">
+                              <textarea
+                                name="comment"
+                                className="form-control"
+                                id="comment"
+                                cols={30}
+                                rows={10}
+                                placeholder="Leave a Comment"
+                                onChange={form.handleChange}
+                                onBlur={form.handleBlur}
+                                value={form.values["comment"]}
+                              />
+                            </div>
+                            <div className="col-12">
+                              <button
+                                className="btn delicious-btn mt-30"
+                                type="submit"
+                              >
+                                Post Comments
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </FormikProvider>
+              </>
+            )}
+            <div className="mb-50">
+              <Link to="/signup" className="signup-text">
+                Sign up
+              </Link>{" "}
+              or{" "}
+              <Link to="/login" className="signup-text">
+                login
+              </Link>{" "}
+              to leave a comment
+            </div>
             <div className="row">
               <div className="col-12 col-lg-4">
                 <div className="ingredients">

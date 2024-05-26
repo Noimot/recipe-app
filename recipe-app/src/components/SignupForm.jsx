@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FormikProvider, useFormik } from "formik";
 import { object, string, ref } from "yup";
 import { useMutation, useQueryClient } from "react-query";
@@ -9,9 +9,12 @@ import toast from "react-hot-toast";
 const SignupForm = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [data, setData] = useState();
+
   const mutation = useMutation(signupApi, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
+      setData(data);
       queryClient.invalidateQueries("signup");
     },
   });
@@ -45,29 +48,34 @@ const SignupForm = () => {
     validationSchema: authSchema,
     onSubmit: (values) => {
       try {
-        console.log(values);
         mutation.mutate(values);
         // navigate("/recipe");
         toast.success("Signup successfully!");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+        navigate("/");
       } catch (error) {
         toast.error("An error occurred");
-        console.log(error);
       }
     },
   });
+
+  useEffect(() => {
+    localStorage.setItem("token", data?.token);
+    localStorage.setItem("user", JSON.stringify(data?.data?.user));
+  }, data);
   return (
-    <FormikProvider values={form}>
+    <FormikProvider value={form}>
       <div
         className="login-area bg-img bg-overlay mx-auto"
         style={{ backgroundImage: "url(/img/bg-img/breadcumb3.jpg)" }}
       >
-      
         <div className="container mx-auto login-area-border">
-        <div className="text-left">
-        <a className="nav-brand" href="/">
-                  <img src="/img/core-img/logo.png" alt="" />
-                </a>
-        </div>
+          <div className="text-left">
+            <a className="nav-brand" href="/">
+              <img src="/img/core-img/logo.png" alt="" />
+            </a>
+          </div>
           <div className="text-center login-header">
             <h2 className="login-header">Signup</h2>
           </div>
@@ -77,6 +85,9 @@ const SignupForm = () => {
                 <form onSubmit={form.handleSubmit}>
                   <div className="row">
                     <div className="col-12">
+                      <div className="signup-text font-italic">
+                        {form.errors.name}
+                      </div>
                       <input
                         type="text"
                         className="form-control"
@@ -89,6 +100,9 @@ const SignupForm = () => {
                       />
                     </div>
                     <div className="col-12">
+                      <div className="signup-text font-italic">
+                        {form.errors.email}
+                      </div>
                       <input
                         type="email"
                         className="form-control"
@@ -101,6 +115,10 @@ const SignupForm = () => {
                       />
                     </div>
                     <div className="col-12 col-lg-6">
+                      <div className="signup-text font-italic">
+                        {form.errors.password}
+                      </div>
+
                       <input
                         type="password"
                         className="form-control"
@@ -113,6 +131,9 @@ const SignupForm = () => {
                       />
                     </div>
                     <div className="col-12 col-lg-6">
+                      <div className="signup-text font-italic">
+                        {form.errors.confirmPassword}
+                      </div>
                       <input
                         type="password"
                         className="form-control"
@@ -124,7 +145,7 @@ const SignupForm = () => {
                         value={form.values["confirmPassword"]}
                       />
                     </div>
-                    <p className="col-12 text-center para-text">
+                    <p className="col-12 text-center text-white-1">
                       Already have an account?{" "}
                       <span>
                         <a href="/login" className="signup-text">

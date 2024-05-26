@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FormikProvider, useFormik } from "formik";
 import { object, string } from "yup";
 import { useMutation, useQueryClient } from "react-query";
@@ -8,14 +8,15 @@ import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const queryClient = useQueryClient();
+  const [data, setData] = useState();
   const navigate = useNavigate();
   const mutation = useMutation(loginApi, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
+      setData(data);
       queryClient.invalidateQueries("login");
     },
   });
-
   const authSchema = object({
     email: string().required().label("Email"),
     password: string().required().label("Password"),
@@ -31,16 +32,21 @@ const LoginForm = () => {
     onSubmit: (values) => {
       console.log(values, "values");
       try {
-        console.log(values);
         mutation.mutate(values);
         // navigate("/recipe");
         toast.success("Login successfully!");
+        localStorage.setItem("token", data?.token);
+        localStorage.setItem("user", JSON.stringify(data?.data?.user));
+        // navigate("/");
       } catch (error) {
         toast.error("An error occurred");
-        console.log(error);
       }
     },
   });
+  useEffect(() => {
+    localStorage.setItem("token", data?.token);
+    localStorage.setItem("user", JSON.stringify(data?.data?.user));
+  }, data);
   return (
     <FormikProvider values={form}>
       <div
@@ -48,11 +54,11 @@ const LoginForm = () => {
         style={{ backgroundImage: "url(/img/bg-img/breadcumb3.jpg)" }}
       >
         <div className="container mx-auto login-area-border">
-        <div className="text-left">
-        <a className="nav-brand" href="/">
-                  <img src="/img/core-img/logo.png" alt="" />
-                </a>
-        </div>
+          <div className="text-left">
+            <a className="nav-brand" href="/">
+              <img src="/img/core-img/logo.png" alt="" />
+            </a>
+          </div>
           <div className="text-center login-header">
             <h2 className="login-header">Login</h2>
           </div>
@@ -62,6 +68,9 @@ const LoginForm = () => {
                 <form onSubmit={form.handleSubmit}>
                   <div className="row">
                     <div className="col-12">
+                      <div className="signup-text font-italic">
+                        {form.errors.email}
+                      </div>
                       <input
                         type="email"
                         className="form-control"
@@ -74,6 +83,9 @@ const LoginForm = () => {
                       />
                     </div>
                     <div className="col-12">
+                      <div className="signup-text font-italic">
+                        {form.errors.password}
+                      </div>
                       <input
                         type="password"
                         className="form-control"
@@ -86,7 +98,7 @@ const LoginForm = () => {
                       />
                     </div>
 
-                    <p className="col-12 text-center para-text">
+                    <p className="col-12 text-center text-white-1">
                       You don't have an account?{" "}
                       <span>
                         <a href="/signup" className="signup-text">

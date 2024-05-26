@@ -7,21 +7,20 @@ import { getAllRecipes, searchRecipes } from "../../../service/recipe";
 const Recipe = () => {
   const [title, setTitle] = useState("");
   const [queryTitle, setQueryTitle] = useState("");
-//   const query = useQuery("recipes", getAllRecipes);
-//   const allRecipes = query?.data?.data?.allRecipes;
+  //   const query = useQuery("recipes", getAllRecipes);
+  //   const allRecipes = query?.data?.data?.allRecipes;
 
-  const query = useQuery(
-    ["recipes", queryTitle],
-    () => searchRecipes(queryTitle)
+  const query = useQuery(["recipes", queryTitle], () =>
+    searchRecipes(queryTitle)
   );
   const allRecipes = query?.data?.data?.recipes;
-console.log(query)
+  console.log(query);
   const handleSearch = () => {
     setQueryTitle(title);
   };
   const handleReset = () => {
     setQueryTitle("");
-    setTitle("")
+    setTitle("");
   };
   return (
     <Layout recipePage>
@@ -46,26 +45,35 @@ console.log(query)
           <div className="container">
             <form>
               <div className="row">
-                <div className="col-6">
-                  <input
-                    name="search"
-                    placeholder="Search Recipes"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
+                <div className="d-flex">
+                  <div className="col-lg-12">
+                    <input
+                      name="search"
+                      placeholder="Search Recipes"
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      className="btn delicious-btn"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      className="btn delicious-btn"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button>
+                  </div>
                 </div>
-                <div className="col-3 text-right">
-                  <button type="button" className="btn delicious-btn" onClick={handleSearch}>
-                    Search
-                  </button>
-                </div>
-                <div className="col-3 text-right">
-                  <button type="button" className="btn delicious-btn" onClick={handleReset}>
-                    Reset
-                  </button>
-                </div>
-                
               </div>
             </form>
           </div>
@@ -78,12 +86,17 @@ console.log(query)
               {query.isLoading && <div>page is loading.....</div>}
               {allRecipes &&
                 allRecipes?.map((data) => (
-                  <SmallestCard
-                    createdAt="January 04, 2018"
-                    name={data.name}
-                    id={data?.id}
-                    key={data.id}
-                  />
+                  <>
+                    <SmallestCard
+                      createdAt="January 04, 2018"
+                      name={data.name}
+                      id={data?.id}
+                      key={data.id}
+                    />
+                    {/* <span>
+                      <img src="/icons/delete-icon.svg" alt="" />
+                    </span> */}
+                  </>
                 ))}
             </div>
           </div>
