@@ -60,11 +60,13 @@ const Home = ({title, setTitle}) => {
               title={firstRecipe?.name ?? "--"}
               description={firstRecipe?.servings ?? "--"}
               id={firstRecipe?.id}
+              photo={firstRecipe?.photo}
             />
             <MediumRecipeCard
               title={secondRecipe?.name ?? "--"}
               description={secondRecipe?.servings ?? "--"}
               id={firstRecipe?.id}
+              photo={firstRecipe?.photo}
             />
           </div>
         </div>
@@ -86,9 +88,9 @@ const Home = ({title, setTitle}) => {
                 return (
                   <SmallRecipeCard
                     name={data?.name ?? "--"}
-                    img="/img/bg-img/r1.jpg"
                     key={data?.id}
                     id={data?.id}
+                    photo={data?.photo}
                   />
                 );
               })}
@@ -131,6 +133,7 @@ const Home = ({title, setTitle}) => {
                   name={data.name}
                   id={data?.id}
                   key={data?.id}
+                  photo={data?.photo}
                 />
               ))}
           </div>

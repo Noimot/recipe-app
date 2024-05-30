@@ -117,6 +117,7 @@ img {
 .mr-50 {
   margin-right: 50px !important; }
 
+
 /* Height */
 .height-400 {
   height: 400px !important; }
@@ -200,6 +201,17 @@ img {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
+
+
+
+.img-container {
+  width: 100px;
+  height: 100px;
+  img {
+    width: 100%
+  }
+}
+
 /* Miscellaneous */
 .bg-img {
   background-position: center center;
@@ -783,7 +795,9 @@ border-radius: 10px;
     flex: 0 0 100px;
     max-width: 100px;
     width: 100px;
-    padding-right: 20px; }
+    height: 100px;
+    margin-right: 20px;
+   }
   .single-small-receipe-area .receipe-content span {
     font-size: 12px;
     display: block;

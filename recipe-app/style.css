@@ -249,6 +249,14 @@ img {
   }
 }
 
+.img-container {
+  width: 100px;
+  height: 100px;
+  img {
+    width: 100%
+  }
+}
+
 /* Miscellaneous */
 .bg-img {
   background-position: center center;
@@ -967,7 +975,8 @@ textarea:focus {
   flex: 0 0 100px;
   max-width: 100px;
   width: 100px;
-  padding-right: 20px;
+  height: 100px;
+  margin-right: 20px;
 }
 .single-small-receipe-area .receipe-content span {
   font-size: 12px;

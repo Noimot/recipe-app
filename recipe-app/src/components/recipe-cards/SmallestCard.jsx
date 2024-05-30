@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteRecipe, getCommentsByRecipeId } from "../../../service/recipe";
 import toast from "react-hot-toast";
 
-const SmallestCard = ({ createdAt, name, id }) => {
+const SmallestCard = ({ createdAt, name, id, photo }) => {
   const [modalShow, setModalShow] = useState(false);
   const queryClient = useQueryClient();
 
@@ -48,7 +48,7 @@ const SmallestCard = ({ createdAt, name, id }) => {
     <div className="col-12 col-sm-6 col-lg-4 mt-50">
       <div className="single-small-receipe-area d-flex">
         <div className="receipe-thumb">
-          <img src="/img/bg-img/sr1.jpg" alt="" />
+          <img src={photo? photo : "/img/bg-img/sr1.jpg"} alt="" style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
         </div>
         <div className="receipe-content">
           <span>{date}</span>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormikProvider, useFormik } from "formik";
 import { object, string } from "yup";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 const AddRecipeForm = ({ recipeId }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [photo, setPhoto] = useState();
 
   const query = useQuery(["recipes", recipeId], () => getRecipeById(recipeId));
   const recipe = query?.data?.data?.recipe;
@@ -27,11 +28,10 @@ const AddRecipeForm = ({ recipeId }) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries("recipes");
       navigate("/recipe");
-      console.log(data, 'updated data')
+      console.log(data, "updated data");
       toast.success("Recipe updated successfully!");
     },
   });
-
 
   const recipeSchema = object({
     name: string().required().label("Recipe Name"),
@@ -54,16 +54,26 @@ const AddRecipeForm = ({ recipeId }) => {
     enableReinitialize: true,
     validationSchema: recipeSchema,
     onSubmit: (values) => {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("servings", values.servings);
+      formData.append("instructions", values.instructions);
+      formData.append("ingredients", values.ingredients);
+      formData.append("prepTime", values.prepTime);
+      formData.append("cookTime", values.cookTime);
+      if (photo) {
+        formData.append("photo", photo);
+      }
       try {
         console.log(values);
         // mutation.mutate(values);
         if (recipeId) {
           // Update existing recipe, passing id and data separately
-          console.log(values, recipeId)
-          updateMutation.mutate({ id: recipeId, data: values });
+          console.log(values, recipeId);
+          updateMutation.mutate({ id: recipeId, data: formData });
         } else {
           // Add new recipe
-          addMutation.mutate(values);
+          addMutation.mutate(formData);
         }
       } catch (error) {
         toast.error("An error occurred");
@@ -71,6 +81,10 @@ const AddRecipeForm = ({ recipeId }) => {
       }
     },
   });
+
+  const handlePhotoChange = (e) => {
+    setPhoto(e.target.files[0]);
+  };
   return (
     <FormikProvider value={form}>
       <div
@@ -151,6 +165,13 @@ const AddRecipeForm = ({ recipeId }) => {
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                       value={form.values["cookTime"]}
+                    />
+                  </div>
+                  <div className="col-12 mb-15">
+                    <input
+                      className="col-12"
+                      type="file"
+                      onChange={handlePhotoChange}
                     />
                   </div>
                   <div className="col-12">

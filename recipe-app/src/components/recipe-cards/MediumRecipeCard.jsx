@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const MediumRecipeCard = ({title, description, id}) => {
+const MediumRecipeCard = ({ title, description, id, photo }) => {
   return (
     <div className="col-12 col-lg-6">
       <div className="single-top-catagory">
-        <img src="/img/bg-img/bg2.jpg" alt="" />
+        <img src={photo ? photo : "/img/bg-img/bg2.jpg"} alt="" />
         {/* Content */}
         <div className="top-cta-content">
           <h3>{title}</h3>

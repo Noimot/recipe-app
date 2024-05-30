@@ -92,6 +92,7 @@ const Recipe = ({title, setTitle}) => {
                       name={data.name}
                       id={data?.id}
                       key={data.id}
+                      photo={data?.photo}
                     />
                     {/* <span>
                       <img src="/icons/delete-icon.svg" alt="" />
