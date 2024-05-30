@@ -26,7 +26,7 @@ const Header = ({
   const token = localStorage.getItem("token");
   const signUpOrLoginToAddRecipe = () => {
     if (!token) {
-      alert("Please sign up or login to add recipe");
+      navigate('/login')
     } else {
       navigate("/recipe/add-recipe");
     }
@@ -268,3 +268,4 @@ const Header = ({
 };
 
 export default Header;
+
