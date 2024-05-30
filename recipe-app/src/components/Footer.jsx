@@ -94,28 +94,32 @@ const Footer = () => {
               {/* Footer Social Info */}
               <div className="footer-social-info text-right">
                 <a href="#">
-                  <i className="fa fa-pinterest" aria-hidden="true" />
+                  <i className="fa fa-instagram" aria-hidden="true" />
                 </a>
-                <a href="#">
+                <a
+                  href={`https://www.facebook.com/share.php?u=${window.location.origin}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <i className="fa fa-facebook" aria-hidden="true" />
                 </a>
-                <a href="#">
+                <a href={`http://twitter.com/share?text=${'recipe app' + window.location.origin}`} target="_blank"
+                  rel="noopener noreferrer">
                   <i className="fa fa-twitter" aria-hidden="true" />
                 </a>
                 <a href="#">
-                  <i className="fa fa-dribbble" aria-hidden="true" />
-                </a>
-                <a href="#">
-                  <i className="fa fa-behance" aria-hidden="true" />
-                </a>
-                <a href="#">
                   <i className="fa fa-linkedin" aria-hidden="true" />
+                </a>
+                <a href={`https://wa.me/?text=${'recipe app'}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <i className="fa fa-whatsapp" aria-hidden="true" />
                 </a>
               </div>
               {/* Footer Logo */}
               <div className="footer-logo">
                 <a href="/">
-                  <img src="/img/core-img/logo.png" alt="" />
+                  <img src="/img/logoooo.png" alt="" />
                 </a>
               </div>
             </div>

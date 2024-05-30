@@ -1,20 +1,37 @@
 import React from "react";
 import { FormikProvider, useFormik } from "formik";
-import { object, string,  } from "yup";
-import { useMutation, useQueryClient } from "react-query";
-import { addRecipe } from "../../service/recipe";
+import { object, string } from "yup";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { addRecipe, getRecipeById, updateRecipe } from "../../service/recipe";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const AddRecipeForm = () => {
+const AddRecipeForm = ({ recipeId }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutation = useMutation(addRecipe, {
+
+  const query = useQuery(["recipes", recipeId], () => getRecipeById(recipeId));
+  const recipe = query?.data?.data?.recipe;
+  //To add new recipe
+  const addMutation = useMutation(addRecipe, {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries("recipes");
+      navigate("/recipe");
+      toast.success("Recipe added successfully!");
     },
   });
+
+  // To update existing recipe
+  const updateMutation = useMutation(({ id, data }) => updateRecipe(id, data), {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("recipes");
+      navigate("/recipe");
+      console.log(data, 'updated data')
+      toast.success("Recipe updated successfully!");
+    },
+  });
+
 
   const recipeSchema = object({
     name: string().required().label("Recipe Name"),
@@ -26,25 +43,30 @@ const AddRecipeForm = () => {
   });
   const form = useFormik({
     initialValues: {
-      name: "",
-      ingredients: "",
-      instructions: "",
-      servings: "",
-      prepTime: "",
-      cookTime: "",
+      name: "" || recipe?.name,
+      ingredients: "" || recipe?.ingredients,
+      instructions: "" || recipe?.instructions,
+      servings: "" || recipe?.servings,
+      prepTime: "" || recipe?.prepTime,
+      cookTime: "" || recipe?.cookTime,
     },
     validateOnMount: false,
     enableReinitialize: true,
     validationSchema: recipeSchema,
     onSubmit: (values) => {
-      console.log(values, "values");
       try {
         console.log(values);
-        mutation.mutate(values);
-        navigate("/recipe");
-        toast.success("Recipe added successfully!");
+        // mutation.mutate(values);
+        if (recipeId) {
+          // Update existing recipe, passing id and data separately
+          console.log(values, recipeId)
+          updateMutation.mutate({ id: recipeId, data: values });
+        } else {
+          // Add new recipe
+          addMutation.mutate(values);
+        }
       } catch (error) {
-        toast.error("An error occurred")
+        toast.error("An error occurred");
         console.log(error);
       }
     },
@@ -89,7 +111,7 @@ const AddRecipeForm = () => {
                       className="form-control"
                       id="ingredients"
                       name="ingredients"
-                      placeholder="Ingredients"
+                      placeholder="Add ingredients using pipe (|) , comma (,), colon (:) or semicolon (;) as delimeter"
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                       value={form.values["ingredients"]}

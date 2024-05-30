@@ -16,6 +16,15 @@ const SignupForm = () => {
       // Invalidate and refetch
       setData(data);
       queryClient.invalidateQueries("signup");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+      toast.success("Signup successfully!");
+      navigate("/");
+    },
+    onError: (error) => {
+      toast.error(
+        "Signup failed. Please check your credentials and try again."
+      );
     },
   });
 
@@ -47,16 +56,7 @@ const SignupForm = () => {
     enableReinitialize: true,
     validationSchema: authSchema,
     onSubmit: (values) => {
-      try {
-        mutation.mutate(values);
-        // navigate("/recipe");
-        toast.success("Signup successfully!");
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
-        navigate("/");
-      } catch (error) {
-        toast.error("An error occurred");
-      }
+      mutation.mutate(values);
     },
   });
 

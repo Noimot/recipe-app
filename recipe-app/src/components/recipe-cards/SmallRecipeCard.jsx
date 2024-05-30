@@ -1,15 +1,16 @@
 import React from "react";
 import Ratings from "../Ratings";
+import { Link } from "react-router-dom";
 
-const SmallRecipeCard = ({name, img, id}) => {
+const SmallRecipeCard = ({ name, img, id }) => {
   return (
     <div className="col-12 col-sm-6 col-lg-4">
       <div className="single-best-receipe-area mb-30">
-        <img src={img} alt="" />
         <div className="receipe-content">
-          <a href={`recipe/${id}`}>
-            <h5>{name}</h5>
-          </a>
+          <Link to={`recipe/${id}`}>
+            <img src={img} alt="" style={{cursor: "pointer"}} />
+            <h5 className="mt-2">{name}</h5>
+          </Link>
           <Ratings />
         </div>
       </div>

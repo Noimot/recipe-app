@@ -150,7 +150,7 @@ img {
 .section-heading {
   position: relative;
   z-index: 1;
-  margin-bottom: 80px;
+  margin-bottom: 30px;
   text-align: center; }
   .section-heading h3 {
     font-size: 30px;
@@ -741,7 +741,8 @@ border-radius: 10px;
 }
 .comment-li {
   border-bottom: 1px solid #f5f5f5;
-  padding: 10px 0;
+  padding: 10px 10px;
+  margin-top: 10px;
 }
   .cta-area .cta-content h2 {
     font-size: 72px;
@@ -774,7 +775,8 @@ border-radius: 10px;
 .single-small-receipe-area {
   position: relative;
   z-index: 1;
-  margin-bottom: 50px; }
+  /* margin-bottom: 50px; */
+ }
   .single-small-receipe-area .receipe-thumb {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 100px;

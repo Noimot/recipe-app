@@ -15,6 +15,13 @@ const LoginForm = () => {
       // Invalidate and refetch
       setData(data);
       queryClient.invalidateQueries("login");
+      toast.success("Login successfully!");
+      localStorage.setItem("token", data?.token);
+      localStorage.setItem("user", JSON.stringify(data?.data?.user));
+      navigate("/");
+    },
+    onError: (error) => {
+      toast.error("Login failed. Please check your credentials and try again.");
     },
   });
   const authSchema = object({
@@ -31,16 +38,7 @@ const LoginForm = () => {
     validationSchema: authSchema,
     onSubmit: (values) => {
       console.log(values, "values");
-      try {
-        mutation.mutate(values);
-        // navigate("/recipe");
-        toast.success("Login successfully!");
-        localStorage.setItem("token", data?.token);
-        localStorage.setItem("user", JSON.stringify(data?.data?.user));
-        // navigate("/");
-      } catch (error) {
-        toast.error("An error occurred");
-      }
+      mutation.mutate(values);
     },
   });
   useEffect(() => {

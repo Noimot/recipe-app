@@ -10,9 +10,7 @@ const Header = ({
   setQueryTitle,
 }) => {
   const navigate = useNavigate();
-  const goToAddRecipePage = () => {
-    navigate("/recipe/add-recipe");
-  };
+
   const handleSearch = () => {
     // handleToggleSearch();
     setQueryTitle(title);
@@ -26,6 +24,18 @@ const Header = ({
     setActive(path);
   };
   const token = localStorage.getItem("token");
+  const signUpOrLoginToAddRecipe = () => {
+    if (!token) {
+      alert("Please sign up or login to add recipe");
+    } else {
+      navigate("/recipe/add-recipe");
+    }
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
   return (
     <section>
       {" "}
@@ -74,8 +84,8 @@ const Header = ({
                 <div className="classy-menu">
                   {/* Nav Start */}
                   <div className="classynav">
-                    <ul className="d-flex align-items-center">
-                      <div className="mr-2">
+                    <ul className="d-flex align-items-center justify-content-around">
+                      <div className="d-flex align-items-center justify-content-around">
                         <NavLink
                           to="/"
                           style={({ isActive }) => {
@@ -120,47 +130,75 @@ const Header = ({
                         </NavLink>
                       </div>
 
-                      <div>
-                        <li
-                          style={{
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          <Link to="/login" className="">
-                            Login
-                          </Link>
-                        </li>
-                        <li
-                          className="px-2"
-                          style={{
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          <Link to="/signup" className="">
-                            Signup
-                          </Link>
-                        </li>
-                        {token !== 'undefined' && token && (
-                          <li>
-                            <button
-                              className="btn delicious-btn"
-                              type="button"
-                              onClick={goToAddRecipePage}
+                      <div className="d-flex align-items-center justify-content-around">
+                        {!token && (
+                          <>
+                            {" "}
+                            <li
+                              style={{
+                                fontWeight: 600,
+                                textTransform: "uppercase",
+                              }}
                             >
-                              Add Recipe
-                            </button>
+                              <Link to="/login" className="">
+                                Login
+                              </Link>
+                            </li>
+                            <li
+                              className="px-2"
+                              style={{
+                                fontWeight: 600,
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              <Link to="/signup" className="">
+                                Signup
+                              </Link>
+                            </li>
+                          </>
+                        )}
+                        {token !== "undefined" && token && (
+                          <li
+                            style={{
+                              fontWeight: 600,
+                              textTransform: "uppercase",
+                              cursor: "pointer",
+                            }}
+                            onClick={handleLogout}
+                          >
+                            <div className="px-4">Logout</div>
                           </li>
                         )}
+                        <li>
+                          <div
+                            type="button"
+                            onClick={signUpOrLoginToAddRecipe}
+                            style={{
+                              backgroundColor: "#40ba37",
+                              fontSize: "16px",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                              color: "#ffffff",
+                              textTransform: "uppercase",
+                              padding: "12px 18px 11px",
+                              borderBottom: "3px solid #1c8314",
+                              lineHeight: 1,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Add Recipe
+                          </div>
+                        </li>
+                        <li>
+                          {!recipePage && (
+                            <div className="pl-4" onClick={handleToggleSearch}>
+                              <i className="fa fa-search" />
+                            </div>
+                          )}
+                        </li>
                       </div>
                     </ul>
                     {/* Newsletter Form */}
-                    {!recipePage && (
-                      <div className="" onClick={handleToggleSearch}>
-                        <i className="fa fa-search" />
-                      </div>
-                    )}
                   </div>
                   {/* <section className="mt-10">
               <nav>

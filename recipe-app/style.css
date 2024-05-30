@@ -183,7 +183,7 @@ img {
 .section-heading {
   position: relative;
   z-index: 1;
-  margin-bottom: 80px;
+  margin-bottom: 30px;
   text-align: center;
 }
 .section-heading h3 {
@@ -959,7 +959,7 @@ textarea:focus {
 .single-small-receipe-area {
   position: relative;
   z-index: 1;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
 }
 .single-small-receipe-area .receipe-thumb {
   -webkit-box-flex: 0;

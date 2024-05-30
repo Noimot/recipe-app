@@ -12,41 +12,44 @@ import RecipeDetails from "./pages/Recipe/RecipeDetails";
 import AddRecipe from "./pages/AddRecipe";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Modal from "./components/Modal";
 // import Recipe from "./pages/Recipe";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />
-  },
-  {
-    path: "recipe",
-    element: <Recipe />,
-  },
-  {
-    path: "recipe/:id",
-    element: <RecipeDetails />,
-  },
-  {
-    path: "recipe/add-recipe",
-    element: <AddRecipe />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-]);
-
 function App() {
+  const [title, setTitle] = React.useState("");
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home title={title} setTitle={setTitle} />,
+    },
+    {
+      path: "recipe",
+      element: <Recipe title={title} setTitle={setTitle}/>,
+    },
+    {
+      path: "recipe/:id",
+      element: <RecipeDetails />,
+    },
+    {
+      path: "recipe/add-recipe",
+      element: <AddRecipe />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    
+    {
+      path: "/modal",
+      element: <Modal />,
+    },
+  ]);
+
   return (
     <div>
       <RouterProvider router={router} />
     </div>
   );
 }
-
 export default App;

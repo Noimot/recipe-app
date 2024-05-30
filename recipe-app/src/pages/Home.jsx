@@ -7,13 +7,13 @@ import SmallRecipeCard from "../components/recipe-cards/SmallRecipeCard";
 import SmallestCard from "../components/recipe-cards/SmallestCard";
 import Layout from "../components/Layout";
 
-const Home = () => {
+const Home = ({title, setTitle}) => {
   const [activeIndex, setActiveIndex] = useState(1);
   const [toggleSearch, setToggleSearch] = useState(false);
 
   // Queries
   const queryClient = useQueryClient();
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
   const [queryTitle, setQueryTitle] = useState("");
   //   const query = useQuery("recipes", getAllRecipes);
   //   const allRecipes = query?.data?.data?.allRecipes;

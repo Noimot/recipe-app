@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MediumRecipeCard = ({title, description, id}) => {
   return (
@@ -9,9 +10,9 @@ const MediumRecipeCard = ({title, description, id}) => {
         <div className="top-cta-content">
           <h3>{title}</h3>
           <h6>{description}</h6>
-          <a href={`/recipe/${id}`} className="btn delicious-btn">
+          <Link to={`/recipe/${id}`} className="btn delicious-btn">
             See Full Recipe
-          </a>
+          </Link>
         </div>
       </div>
     </div>

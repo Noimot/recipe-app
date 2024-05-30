@@ -4,8 +4,8 @@ import SmallestCard from "../../components/recipe-cards/SmallestCard";
 import { useQuery, useQueryClient } from "react-query";
 import { getAllRecipes, searchRecipes } from "../../../service/recipe";
 
-const Recipe = () => {
-  const [title, setTitle] = useState("");
+const Recipe = ({title, setTitle}) => {
+//   const [title, setTitle] = useState("");
   const [queryTitle, setQueryTitle] = useState("");
   //   const query = useQuery("recipes", getAllRecipes);
   //   const allRecipes = query?.data?.data?.allRecipes;
@@ -88,7 +88,7 @@ const Recipe = () => {
                 allRecipes?.map((data) => (
                   <>
                     <SmallestCard
-                      createdAt="January 04, 2018"
+                      createdAt={data.createdAt}
                       name={data.name}
                       id={data?.id}
                       key={data.id}
