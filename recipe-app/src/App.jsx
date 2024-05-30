@@ -12,7 +12,7 @@ import RecipeDetails from "./pages/Recipe/RecipeDetails";
 import AddRecipe from "./pages/AddRecipe";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Modal from "./components/Modal";
+// import Modal from "./components/Modal";
 // import Recipe from "./pages/Recipe";
 
 function App() {
@@ -41,8 +41,8 @@ function App() {
     },
     
     {
-      path: "/modal",
-      element: <Modal />,
+      path: "/signup",
+      element: <Signup />,
     },
   ]);
 

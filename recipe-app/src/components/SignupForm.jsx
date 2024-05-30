@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormikProvider, useFormik } from "formik";
 import { object, string, ref } from "yup";
 import { useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signupApi } from "../../service/auth";
 import toast from "react-hot-toast";
 
@@ -60,10 +60,10 @@ const SignupForm = () => {
     },
   });
 
-  useEffect(() => {
-    localStorage.setItem("token", data?.token);
-    localStorage.setItem("user", JSON.stringify(data?.data?.user));
-  }, data);
+  // useEffect(() => {
+  //   localStorage.setItem("token", data?.token);
+  //   localStorage.setItem("user", JSON.stringify(data?.data?.user));
+  // }, data);
   return (
     <FormikProvider value={form}>
       <div
@@ -72,9 +72,9 @@ const SignupForm = () => {
       >
         <div className="container mx-auto login-area-border">
           <div className="text-left">
-            <a className="nav-brand" href="/">
+            <Link className="nav-brand" to="/">
               <img src="/img/core-img/logo.png" alt="" />
-            </a>
+            </Link>
           </div>
           <div className="text-center login-header">
             <h2 className="login-header">Signup</h2>
@@ -148,9 +148,9 @@ const SignupForm = () => {
                     <p className="col-12 text-center text-white-1">
                       Already have an account?{" "}
                       <span>
-                        <a href="/login" className="signup-text">
+                        <Link to="/login" className="signup-text">
                           Login
-                        </a>
+                        </Link>
                       </span>
                     </p>
                     <div className="col-12 text-center">

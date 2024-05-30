@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormikProvider, useFormik } from "formik";
 import { object, string } from "yup";
 import { useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginApi } from "../../service/auth";
 import toast from "react-hot-toast";
 
@@ -41,10 +41,10 @@ const LoginForm = () => {
       mutation.mutate(values);
     },
   });
-  useEffect(() => {
-    localStorage.setItem("token", data?.token);
-    localStorage.setItem("user", JSON.stringify(data?.data?.user));
-  }, data);
+  // useEffect(() => {
+  //   localStorage.setItem("token", data?.token);
+  //   localStorage.setItem("user", JSON.stringify(data?.data?.user));
+  // }, data);
   return (
     <FormikProvider values={form}>
       <div
@@ -53,9 +53,9 @@ const LoginForm = () => {
       >
         <div className="container mx-auto login-area-border">
           <div className="text-left">
-            <a className="nav-brand" href="/">
-              <img src="/img/core-img/logo.png" alt="" />
-            </a>
+            <Link className="nav-brand" to="/">
+            <img src="/img/core-img/logo.png" alt="" />
+            </Link>
           </div>
           <div className="text-center login-header">
             <h2 className="login-header">Login</h2>
@@ -99,9 +99,9 @@ const LoginForm = () => {
                     <p className="col-12 text-center text-white-1">
                       You don't have an account?{" "}
                       <span>
-                        <a href="/signup" className="signup-text">
+                        <Link to="/signup" className="signup-text">
                           Signup
-                        </a>
+                        </Link>
                       </span>
                     </p>
                     <div className="col-12 text-center">
