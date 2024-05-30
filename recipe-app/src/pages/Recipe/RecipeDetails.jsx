@@ -57,12 +57,13 @@ const RecipeDetails = () => {
   );
 
   const token = localStorage.getItem("token");
-  const userDetails = JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user");
+  const userDetails = user ? JSON.parse(user) : "";
 
   const findUser = (id) => userDetails._id === id;
   // console.log(findUser, "find user");
 
-  const role = userDetails.role;
+  const role = userDetails?.role;
 
   //Find comment using comment id
   const [comment, setComment] = useState();

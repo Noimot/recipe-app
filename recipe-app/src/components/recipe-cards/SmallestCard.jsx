@@ -64,7 +64,7 @@ const SmallestCard = ({ createdAt, name, id }) => {
           </p>
         </div>
       </div>
-      {userData.role === "admin" && (
+      {userData?.role === "admin" && (
         <div className="mt-2" style={{ cursor: "pointer" }}>
           <span className="" onClick={goToEditRecipe}>
             <img src="/icons/edit-icon.svg" alt="" style={{ width: "17px" }} />
